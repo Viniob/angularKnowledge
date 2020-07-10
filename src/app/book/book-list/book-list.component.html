@@ -1,1 +1,44 @@
-<p>book-list works!</p>
+<div style="text-align: center;" class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="header">
+                <h4 style="text-align: center;" class="title">List Book</h4>
+            </div>
+            <div>
+                <table class="table table-bordered table-condensed">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Photo</th>
+                            <th>view detail</th>
+                            <th>remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let book of bookList">
+                            <td>{{book.name}}</td>
+                            <td>{{book.price}}</td>
+                            <td>{{book.category}}</td>
+                            <td>
+                                <img style="width: 3rem;" class="card-img-top" src="https://png.pngtree.com/png-clipart/20190520/original/pngtree-vector-book-icon-png-image_4258455.jpg" alt="Card image cap">
+                            </td>
+                            <td style="text-align: center;">
+                                <button type="button" class="btn btn-info" (click)="detailBook(book.id)">Info</button>
+                            </td>
+                            <td style="text-align: center;">
+                                <button type="button" class="btn btn-danger" (click)="removeBook(book.id)">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

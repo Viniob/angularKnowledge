@@ -8,7 +8,9 @@ import { BookCreateComponent } from './book/book-create/book-create.component';
 import { BookListComponent } from './book/book-list/book-list.component'
 import {AuthGuard} from './security/auth.guard'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {BookService} from './book/book.service'; 
+import {BookService} from './book/book.service';
+import  { BookRemoveComponent} from './book/book-remove/book-remove.component'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,7 @@ import {BookService} from './book/book.service';
     SecurityComponent,
     BookCreateComponent,
     BookListComponent,
-    
+    BookRemoveComponent
     
     
   ],
@@ -24,9 +26,10 @@ import {BookService} from './book/book.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule   
+    ReactiveFormsModule  
   ],
   providers: [AuthGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ BookRemoveComponent ]
 })
 export class AppModule { }

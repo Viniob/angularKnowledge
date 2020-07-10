@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpResponseBase, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { Book } from './book.model';
@@ -11,7 +11,7 @@ import { error } from '@angular/compiler/src/util';
 export class BookService {
 
   url = 'http://localhost:8080/'
-
+  
   constructor(private http: HttpClient) { }
 
   createBook(book: Book){
@@ -34,6 +34,20 @@ getBook(): Observable<Book[]>{
       catchError(this.handleError)
     );
 } 
+
+removeBook(id : any): Observable<HttpResponseBase>{
+  let tokenStri = 'Bearer '+localStorage.getItem('token');
+    const headerReq = new HttpHeaders().set('Authorization',tokenStri);
+    const paramsReqTeste = new HttpParams().set('id', id);
+    
+    return this.http.delete<HttpResponseBase>(this.url+'deleteBook', { headers: headerReq, params: paramsReqTeste }).pipe(
+      map((response: HttpResponseBase) => {
+        console.log('response httpResponseBase --> ', response.status)
+        return response
+      }),
+      catchError(this.handleError)
+    );
+}
 
 
 
