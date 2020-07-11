@@ -1,21 +1,25 @@
 <div class="container">
-<form [formGroup]="form">
-    <div class="form-group">
-      <label for="name">Book Name</label>
-      <input type="text" class="form-control" id="name"  placeholder="Book Name" formControlName="name">
+    <div class="alert alert-success alert-dismissible" *ngIf="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Success!</strong> Book created with success with id : {{idCreated}}
     </div>
-    <div class="form-group">
-      <label for="price">Price</label>
-      <input type="number" class="form-control" id="price" placeholder="Price" formControlName="price">
-    </div>
-    <h2>Category</h2>
-    <div class="form-check">
-        <ul *ngFor="let category of categorys">
-        <input type="checkbox" class="form-check-input" (click)="categorySelected(category.id)">
-        <label class="form-check-label" for="category">{{category.name}}</label>
-        </ul>
-    </div>
+    <form [formGroup]="form">
+        <div class="form-group">
+            <label for="name">Book Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Book Name" formControlName="name">
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" id="price" placeholder="Price" formControlName="price">
+        </div>
+        <h2>Category</h2>
+        <div class="form-check">
+            <ul *ngFor="let category of categorys">
+                <input type="checkbox" class="form-check-input" (click)="categorySelected(category.id)">
+                <label class="form-check-label" for="category">{{category.name}}</label>
+            </ul>
+        </div>
 
-    <button type="submit" class="btn btn-primary" (click)="createBook()">Submit</button>
-  </form>
+        <button type="submit" class="btn btn-primary" (click)="createBook()">Submit</button>
+    </form>
 </div>

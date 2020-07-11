@@ -14,10 +14,5 @@ export class JwtClientService {
    return this.http.post(this.url, authRequest, {responseType : 'text' as 'json'});
   }
 
-  public welcome(token){
-    let tokenStri = 'Bearer '+token;
-    const headers = new HttpHeaders().set('Authorization',tokenStri);
-    return this.http.get('http://localhost:8080/welcome', {headers, responseType: 'text' as 'json'})
-  }
 }
 

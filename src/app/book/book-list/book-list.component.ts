@@ -3,6 +3,7 @@ import { BookService } from '../book.service';
 import { Book } from '../book.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BookRemoveComponent } from '../book-remove/book-remove.component';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-book-list',
@@ -12,6 +13,8 @@ import { BookRemoveComponent } from '../book-remove/book-remove.component';
 export class BookListComponent implements OnInit {
   bookList: Book[] = []
   newList = []
+ 
+  alert: boolean
 
   constructor(private serviceBook: BookService, private modalService: NgbModal) { }
 
@@ -26,7 +29,7 @@ export class BookListComponent implements OnInit {
   }
 
   detailBook(id: any) {
-    console.log('redirecionando com valor id --> ', id)
+    
 
   }  
 
@@ -37,14 +40,21 @@ export class BookListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result != 'cancel') {
-        
-        this.serviceBook.removeBook(id).subscribe(response => {
-          console.log('?? --> ', response)
-        })
+        this.serviceBook.removeBook(id).subscribe(resp => {
+          if(resp.status === 200){
+            this.alert = true
+            setTimeout(() => {
+              this.alert = false
+            }, 5000)
+            this.ngOnInit()
+          }
+        })  
       } else {
-        console.log('operação cancelada :-)')
+       
       }
       });
   }
+
+ 
 
 }

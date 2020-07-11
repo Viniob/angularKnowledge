@@ -4,7 +4,12 @@
             <div class="header">
                 <h4 style="text-align: center;" class="title">List Book</h4>
             </div>
+            <div class="alert alert-success alert-dismissible" *ngIf="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Success!</strong> Book deleted with success
+            </div>
             <div>
+
                 <table class="table table-bordered table-condensed">
                     <thead class="thead-dark">
                         <tr>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpResponseBase, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpResponseBase, HttpParams, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { Book } from './book.model';
@@ -17,11 +17,11 @@ export class BookService {
   createBook(book: Book){
     let tokenStri = 'Bearer '+localStorage.getItem('token');
     const headerReq = new HttpHeaders().set('Authorization',tokenStri);
-    return this.http.post(this.url+'createBook', book, {headers: headerReq}).subscribe(resposta => {
-      console.log('res -->', resposta)
-    }, (er: HttpErrorResponse) => {
-      console.log('error -->', er.message)
-    })
+    return this.http.post(this.url+'createBook', book, {headers: headerReq}).pipe(
+      map((response: Book) => {
+        return response
+      }), catchError(this.handleError)
+    )
   }
 
 getBook(): Observable<Book[]>{
@@ -35,34 +35,19 @@ getBook(): Observable<Book[]>{
     );
 } 
 
-removeBook(id : any): Observable<HttpResponseBase>{
+removeBook(id : any): Observable<any>{
   let tokenStri = 'Bearer '+localStorage.getItem('token');
     const headerReq = new HttpHeaders().set('Authorization',tokenStri);
     const paramsReqTeste = new HttpParams().set('id', id);
     
-    return this.http.delete<HttpResponseBase>(this.url+'deleteBook', { headers: headerReq, params: paramsReqTeste }).pipe(
-      map((response: HttpResponseBase) => {
-        console.log('response httpResponseBase --> ', response.status)
-        return response
-      }),
-      catchError(this.handleError)
-    );
+   return this.http.delete(this.url+'deleteBook', { headers: headerReq, params: paramsReqTeste, observe: 'response' }).pipe(
+     map((response: any) => {
+       return response
+     })
+   )
+      
 }
 
-
-
-/*  createBook1(book: Book): Observable<Book>{
-    let tokenStri = 'Bearer '+localStorage.getItem('token');
-    const headerReq = new HttpHeaders().set('Authorization',tokenStri);
-    console.log('montei a request?')
-    return this.http.post<Book>(this.url, book, {headers: headerReq}).pipe(
-      map((response: Book) => {
-        return response
-      }),
-      catchError(this.handleError)
-    );
-  } 
-*/
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

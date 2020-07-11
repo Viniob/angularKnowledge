@@ -12,50 +12,49 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./book-create.component.css']
 })
 export class BookCreateComponent implements OnInit {
-  categorys = [{"id":1, "name":"Tecnologia"},{"id":2, "name":"Direito"},{"id":3, "name":"Historia"}]
+  categorys = [{ "id": 1, "name": "Tecnologia" }, { "id": 2, "name": "Direito" }, { "id": 3, "name": "Historia" }]
   categoryIdSelected: number
   book: Book
   form: FormGroup = null;
+  alert: boolean
+  idCreated: any
+  constructor(private serviceBook: BookService) { }
 
-  constructor(private serviceBook : BookService) { }
 
-  
 
   ngOnInit(): void {
-   this.createForm()
+    this.createForm()
   }
 
-  createForm(){
+  createForm() {
     this.form = new FormGroup({
       name: new FormControl(''),
       price: new FormControl(''),
       category: new FormControl(this.categorys)
     })
   }
-  
-  createBook(){
+
+  createBook() {
     this.book = this.form.value
     this.book.category = this.categoryIdSelected
-    this.serviceBook.createBook(this.book) 
+    this.serviceBook.createBook(this.book).subscribe(response => {
+      if (response.id) {
+        this.idCreated = response.id
+        this.alert = true
+        setTimeout(() => {
+          this.alert = false
+        }, 5000);
+        this.ngOnInit()
+      }
+    })
   }
 
- /*  createBook1() {
-    this.book = this.form.value
-    this.book.category = this.categoryIdSelected
-    this.serviceBook.createBook1(this.book).pipe(
-      map((res: Book) => {
-        if (res.id) {
-          console.log(res.id);
-        }
-      }), catchError(this.handleError)
-    );
-  } 
-  */
 
 
-  categorySelected(id: any){
+
+  categorySelected(id: any) {
     this.categoryIdSelected = id;
-    console.log('?? -> ', this.categoryIdSelected)
+    
   }
 
   private handleError(error: HttpErrorResponse) {
