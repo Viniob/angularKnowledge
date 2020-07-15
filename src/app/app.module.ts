@@ -12,13 +12,15 @@ import {BookService} from './book/book.service';
 import  { BookRemoveComponent} from './book/book-remove/book-remove.component'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     SecurityComponent,
     BookCreateComponent,
     BookListComponent,
-    BookRemoveComponent
+    BookRemoveComponent,
+   
     
     
   ],

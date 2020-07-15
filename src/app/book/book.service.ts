@@ -14,23 +14,25 @@ export class BookService {
   
   constructor(private http: HttpClient) { }
 
-  createBook(book: Book){
+  createBook(book: Book): Observable<any>{
     let tokenStri = 'Bearer '+localStorage.getItem('token');
     const headerReq = new HttpHeaders().set('Authorization',tokenStri);
-    return this.http.post(this.url+'createBook', book, {headers: headerReq}).pipe(
-      map((response: Book) => {
-        return response
-      }), catchError(this.handleError)
-    )
-  }
+    return this.http.post(this.url+'createBook', book, {headers: headerReq, observe: 'response'}).pipe(
+      map((data: any) => {
+        console.log('data -->', data)
+      },
+      catchError(this.errorHandler)
+    ))}
 
 getBook(): Observable<Book[]>{
     let tokenStri = 'Bearer '+localStorage.getItem('token');
     const headerReq = new HttpHeaders().set('Authorization',tokenStri);
-    return this.http.get(this.url+'getBooks', {headers: headerReq}).pipe(
+    return this.http.get(this.url+'getBooks', {headers: headerReq})
+    
+    .pipe(
       map((response: Book[]) => {
         return response
-      }),
+      }), 
       catchError(this.handleError)
     );
 } 
@@ -47,6 +49,11 @@ removeBook(id : any): Observable<any>{
    )
       
 }
+errorHandler(error: HttpErrorResponse) {
+  return Observable.throw(error.status || "server error.");
+}
+
+
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -55,6 +62,7 @@ removeBook(id : any): Observable<any>{
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
+      
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);

@@ -7,25 +7,33 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" *ngIf="!isLogged" routerLink="login">Login <span class="sr-only">(current)</span></a>
+                <a *ngIf="!isUserLogged" class="nav-link" (click)="login()">Login</a>
+                <a *ngIf="isUserLogged" class="nav-link" (click)="logout()">Logout</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" *ngIf="isLogged" (click)="logout()">Logout <span class="sr-only">(current)</span></a>
+            <li class="navbar-nav mr-auto">
+                <a *ngIf="isUserLogged" class="nav-link" routerLink="/listBook">List Book</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Book
-          </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" routerLink="createBook">Create Book</a>
-                    <a class="dropdown-item" routerLink="listBook">List Book</a>
-                </div>
+            <li class="navbar-nav mr-auto">
+                <a *ngIf="isUserLogged" class="nav-link" routerLink="/createBook">Create Book</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
+
         </ul>
 
     </div>
 </nav>
+<div class="container">
+    <table *ngIf="!isUserLogged">
+        <td style="text-align: center;">
+            <h1>Por gentileza se autentifique no sistema.</h1>
+            <hr>
+            <p><strong>Caso queira logar como admin use as seguintes credencias</strong></p>
+            <p>username: admin</p>
+            <p>password: 123</p>
+            <hr>
+            <p><strong>Caso queira logar como user use as seguintes credencias</strong></p>
+            <p>username: user</p>
+            <p>password: 321</p>
+        </td>
+    </table>
+</div>
 <router-outlet></router-outlet>

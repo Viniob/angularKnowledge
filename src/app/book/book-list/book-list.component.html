@@ -1,6 +1,6 @@
 <div style="text-align: center;" class="container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="header">
                 <h4 style="text-align: center;" class="title">List Book</h4>
             </div>
@@ -30,7 +30,7 @@
                                 <img style="width: 3rem;" class="card-img-top" src="https://png.pngtree.com/png-clipart/20190520/original/pngtree-vector-book-icon-png-image_4258455.jpg" alt="Card image cap">
                             </td>
                             <td style="text-align: center;">
-                                <button type="button" class="btn btn-info" (click)="detailBook(book.id)">Info</button>
+                                <button type="button" class="btn btn-info" (click)="addToCar(book)">Add to car</button>
                             </td>
                             <td style="text-align: center;">
                                 <button type="button" class="btn btn-danger" (click)="removeBook(book.id)">Remove</button>
@@ -43,7 +43,34 @@
 
 
         </div>
-
+        <div class="col-md-6">
+            <p>List items</p>
+            <div *ngIf="listBookShop.length  > 0">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let book of listBookShop; index as i">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td style="text-align: left;">
+                                <img style="width: 3rem;" class="card-img-top" src="https://png.pngtree.com/png-clipart/20190520/original/pngtree-vector-book-icon-png-image_4258455.jpg" alt="Card image cap">{{book.name}}
+                            </td>
+                            <td>{{ book.price}}</td>
+                            <td>{{ book.category}}</td>
+                        </tr>
+                    </tbody>
+                    <p *ngIf="totalValue > 0"><strong style="color: green;"> Total Shop: </strong>{{totalValue}}</p>
+                    <hr>
+                    <button>Go to payment</button>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>

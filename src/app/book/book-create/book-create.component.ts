@@ -3,7 +3,7 @@ import { BookService } from '../book.service';
 import { map, catchError } from 'rxjs/operators';
 import { Book } from '../book.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -34,19 +34,37 @@ export class BookCreateComponent implements OnInit {
     })
   }
 
-  createBook() {
+  createBook(){
     this.book = this.form.value
     this.book.category = this.categoryIdSelected
-    this.serviceBook.createBook(this.book).subscribe(response => {
-      if (response.id) {
-        this.idCreated = response.id
-        this.alert = true
-        setTimeout(() => {
-          this.alert = false
-        }, 5000);
-        this.ngOnInit()
+    this.serviceBook.createBook(this.book).subscribe(
+      response => {
+        if (response.id) {
+          this.idCreated = response.id
+          this.alert = true
+          setTimeout(() => {
+            this.alert = false
+          }, 5000);
+          this.ngOnInit()
+        }
+      },
+      error => {
+        if (error.status === 403) {
+          this.idCreated = 'Only admin credencials can create new book'
+          this.alert = true
+          setTimeout(() => {
+            this.alert = false
+          }, 5000);
+          this.ngOnInit()
+        }
       }
-    })
+    )
+    
+    
+     
+     
+     /*  */
+   
   }
 
 
@@ -58,6 +76,7 @@ export class BookCreateComponent implements OnInit {
   }
 
   private handleError(error: HttpErrorResponse) {
+    
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);

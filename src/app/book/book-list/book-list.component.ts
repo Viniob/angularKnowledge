@@ -12,9 +12,12 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 })
 export class BookListComponent implements OnInit {
   bookList: Book[] = []
-  newList = []
- 
+  listBookShop: Book[] = []
+ totalValue: any
+  
   alert: boolean
+
+  mapBook: Map<String, Book>
 
   constructor(private serviceBook: BookService, private modalService: NgbModal) { }
 
@@ -28,9 +31,21 @@ export class BookListComponent implements OnInit {
     })
   }
 
-  detailBook(id: any) {
-    
+  getTotalValue(total, number){
+    return total + Math.round(number);
+  }
 
+  addToCar(book: Book) {
+    // Usar map pra fazer a lista do carrinho de compra
+    // map<String, CarModel>
+    // Dentro do model CarModel vai ter QuantidadeBook... caso ja exista um book com o mesmo nome no map buscar pela chave e acrescentar +1 quantidade no book comprado 
+    if(this.listBookShop.includes(book, 0) == false){
+    this.listBookShop.push(book)
+    }
+    let values = this.listBookShop.map(function(book) {
+      return book.price + book.price
+    });
+    this.totalValue = this.listBookShop.reduce((acc, book) => acc + book.price, 0);
   }  
 
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { JwtClientService } from './jwt-client.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -21,11 +22,11 @@ export class SecurityComponent implements OnInit {
     'password': '123'
   }
   welcomer: any;
-  constructor(private jwtService: JwtClientService, private router: Router) { }
+  constructor(private jwtService: JwtClientService, private router: Router, public activeModal: NgbActiveModal) { }
 
   ngOnInit() {
     // this.getAccessToken(this.authRequest);
-
+    
     this.createForm()
   }
 
@@ -42,7 +43,7 @@ export class SecurityComponent implements OnInit {
     let resp = this.jwtService.genereteToken(this.authRequest);
     resp.subscribe(resposta => {
       localStorage.setItem('token', resposta.toString())
-      this.router.navigate(['/listBook'])
+      this.activeModal.close('success')
     })
   }
 
